@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WLangage</title>
     <!-- Prism.js CSS -->
-    <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism.min.css" rel="stylesheet" />
+    <link id="prism-theme" href="dist/prism-wlangage.css" rel="stylesheet" />
     <style>pre { border-radius: 5px }</style>
 </head>
 <body>
@@ -49,16 +49,16 @@ procédure DireBonjour(LOCAL sNom est une chaîne = "John"): booléen
 fin
 
 cTour est une Classe
-	hérite de cBatiment
+    hérite de cBatiment
 
     procédure Construire()
         Trace("Construction en cours...")
     fin
 
-	privé
+    privé
     nHauteur est un entier
 
-	protégé
+    protégé
     procédure Renforcer()
         Trace("Renforcement en cours...")
     fin
@@ -66,35 +66,33 @@ fin</code>
 </pre>
 
 </div>
-<!-- Prism.js JS -->
+
+<!-- Prism.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
-<!-- Notre définition WLangage FINALE -->
-<script src="dist/prism-wlangage-light.js"></script>
+
+<!-- Définition WLangage -->
+<script src="dist/prism-wlangage.js"></script>
+
 <script>
     // Theme switcher
     const themeButton = document.getElementById('theme-switcher');
-    const prismTheme = document.getElementById('prism-theme');
-    const body = document.body;
-    // Check for saved theme preference or default to dark
     const currentTheme = localStorage.getItem('theme') || 'dark';
     setTheme(currentTheme);
     themeButton.addEventListener('click', () => {
-        const newTheme = body.classList.contains('light-theme') ? 'dark' : 'light';
+        const newTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
     });
 
     function setTheme(theme) {
         if (theme === 'light') {
-            body.classList.add('light-theme');
-            body.classList.remove('dark-theme');
-            prismTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism.min.css';
+            document.body.classList.add('light-theme');
+            document.body.classList.remove('dark-theme');
             themeButton.textContent = '☀️ Thème Clair';
             themeButton.style.background = '#ff9800';
         } else {
-            body.classList.add('dark-theme');
-            body.classList.remove('light-theme');
-            prismTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css';
+            document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
             themeButton.textContent = '🌙 Thème Sombre';
             themeButton.style.background = '#667eea';
         }
