@@ -7,6 +7,49 @@ Gère correctement les accents et caractères Unicode
 import json
 import re
 
+# ============================================================================
+# CONSTANTES DE STYLE CSS - Thème clair
+# ============================================================================
+CSS_LIGHT = {
+    'code_color': '#008000',
+    'keyword_color': '#000000',
+    'variable_assignment_color': '#555555',
+    'visibility_color': '#0066CC',
+    'procedure_name_color': '#008080',
+    'function_color': '#0000FF',
+    'function_shadow': 'rgba(0,0,255,0.15)',
+    'property_color': '#000000',
+    'constant_color': '#0000FF',
+    'type_color': '#5D00BA',
+    'operator_color': '#000000',
+    'number_color': '#800080',
+    'string_color': '#800080',
+    'comment_color': '#808080',
+    'punctuation_color': '#000000',
+}
+
+# ============================================================================
+# CONSTANTES DE STYLE CSS - Thème sombre
+# ============================================================================
+CSS_DARK = {
+    'code_color': '#4CAF50',
+    'keyword_color': '#FF8000',
+    'variable_assignment_color': '#A6A8AB',
+    'visibility_color': '#4FC3F7',
+    'procedure_name_color': '#009180',
+    'procedure_name_shadow': 'rgba(0,145,128,0.3)',
+    'function_color': '#91B5FE',
+    'function_shadow': 'rgba(145,181,254,0.3)',
+    'property_color': '#CDD3DE',
+    'constant_color': '#B1C33A',
+    'type_color': '#9575CD',
+    'operator_color': '#CDD3DE',
+    'number_color': '#BA68C8',
+    'string_color': '#BA68C8',
+    'comment_color': '#808080',
+    'punctuation_color': '#CDD3DE',
+}
+
 try:
     from jsmin import jsmin
     MINIFY_AVAILABLE = True
@@ -19,6 +62,18 @@ def escape_for_regex(text):
     special = r'\.^$*+?{}[]()|\\'
     result = ''
     for char in text:
+        if char in special:
+            result += '\\' + char
+        else:
+            result += char
+    return result
+
+def escape_operator_for_regex(op):
+    """Échappe les caractères spéciaux pour un opérateur dans une regex JavaScript"""
+    # Pour les opérateurs, on échappe tous les caractères spéciaux
+    special = r'\.^$*+?{}[]()|\\/'
+    result = ''
+    for char in op:
         if char in special:
             result += '\\' + char
         else:
@@ -98,13 +153,8 @@ def create_prism_definition(keywords, functions, constants, operators, types):
     operators_sorted = sorted(operators, key=len, reverse=True)
     operators_escaped = []
     for op in operators_sorted:
-        escaped = escape_for_regex(op)
-        # Échappement supplémentaire pour certains caractères en JavaScript
-        escaped = escaped.replace('?', '\\?')
-        escaped = escaped.replace('+', '\\+')
-        escaped = escaped.replace('*', '\\*')
-        escaped = escaped.replace('|', '\\|')
-        escaped = escaped.replace('/', '\\/')
+        # Utiliser la fonction spécifique pour les opérateurs
+        escaped = escape_operator_for_regex(op)
         operators_escaped.append(escaped)
 
     # Créer les patterns
@@ -112,15 +162,16 @@ def create_prism_definition(keywords, functions, constants, operators, types):
     functions_pattern = '|'.join(functions_escaped)
     constants_pattern = '|'.join(constants_escaped)
     types_pattern = '|'.join(types_patterns)
+    # Pour les opérateurs, on ne les joint pas ici car on va les insérer directement
     operators_pattern = '|'.join(operators_escaped)
 
-    # Template JavaScript
-    template = f'''/**
+    # Template JavaScript - on utilise .format() pour éviter les problèmes d'échappement
+    template = '''/**
  * WLangage syntax highlighting for Prism.js
  * Language: WLangage (WinDev, WebDev, WinDev Mobile)
  *
  * Auto-généré depuis les fichiers JSON
- * Mots-clés: {len(keywords)} | Fonctions: {len(functions)} | Constantes: {len(constants)} | Types: {len(types)}
+ * Mots-clés: {0} | Fonctions: {1} | Constantes: {2} | Types: {3}
  */
 
 Prism.languages.wlangage = {{
@@ -149,7 +200,7 @@ Prism.languages.wlangage = {{
 	'visibility': /(?:^|\\s)(?:public|priv[eé]|prot[eé]g[eé]|h[eé]rite de)(?:$|\\s)/i,
 
 	// Mots-clés du langage
-	'keyword': /\\b(?:{keywords_pattern})\\b/i,
+	'keyword': /\\b(?:{4})\\b/i,
 
 	// Déclaration de procédure
 	'procedure': {{
@@ -161,19 +212,22 @@ Prism.languages.wlangage = {{
 	}},
 
 	// Types de variables
-	'type': /\\b(?:{types_pattern})\\b/i,
+	'type': /\\b(?:{5})\\b/i,
 
 	// Constantes (doit être avant functions pour avoir la priorité)
-	'constant': /\\b(?:{constants_pattern})\\b/i,
+	'constant': /\\b(?:{6})\\b/i,
 
 	// Fonctions natives (suivies d'une parenthèse ouvrante)
-	'function': /\\b(?:{functions_pattern})\\b(?=\\s*\\()/i,
+	'function': /\\b(?:{7})\\b(?=\\s*\\()/i,
+
+	// Propriétés (après un nom de variable suivi d'un ou deux points)
+	'property': /(?<=\\b[\\p{{L}}\\p{{N}}_]+(?:\\.\\.|\\.))[\\p{{L}}\\p{{N}}_]+/u,
 
 	// Nombres (entiers et décimaux, négatifs inclus)
 	'number': /-?\\b\\d+(?:\\.\\d+)?\\b/,
 
 	// Opérateurs
-	'operator': /{operators_pattern}/,
+	'operator': /(?:{8})/,
 
 	// Ponctuation
 	'punctuation': /[(){{}}\\[\\],;:.]/
@@ -184,116 +238,107 @@ Prism.languages.wl = Prism.languages.wlangage;
 
 // Injection automatique des styles CSS pour WLangage
 (function() {{
-    var css = `
+    var style = document.createElement('style');
+    style.textContent = `
         /* Thème clair (par défaut) */
-        .language-wlangage .token.keyword {{
-            color: #000000;
-            text-transform: uppercase;
-        }}
-        .language-wlangage .token.variable-assignment {{
-            color: #555555;
-        }}
-        .language-wlangage .token.visibility {{
-            color: #0066CC;
-            font-weight: bold;
-        }}
+        .light-theme code.language-wlangage {{ color: {9} !important; }}
+        .language-wlangage .token.keyword,
         .language-wlangage .token.procedure .procedure-keyword {{
-            color: #000000;
+            color: {10};
             text-transform: uppercase;
         }}
+        .language-wlangage .token.variable-assignment {{ color: {11}; }}
+        .language-wlangage .token.visibility {{ color: {12}; font-weight: bold; }}
+        .language-wlangage .token.procedure-name,
         .language-wlangage .token.procedure .procedure-name {{
-            color: #008080;
+            color: {13};
             font-weight: 600;
         }}
         .language-wlangage .token.function {{
-            color: #0000FF;
+            color: {14};
+            text-shadow: 0px 0px 4px {15};
         }}
-        .language-wlangage .token.constant {{
-            color: #0000FF;
-            font-style: italic;
-        }}
-        .language-wlangage .token.type {{
-            color: #5D00BA;
-        }}
-        .language-wlangage .token.operator {{
-            color: #000000;
-        }}
-        .language-wlangage .token.number {{
-            color: #800080;
-        }}
-        .language-wlangage .token.string {{
-            color: #800080;
-        }}
-        .language-wlangage .token.comment {{
-            color: #808080;
-            font-style: italic;
-        }}
-        .language-wlangage .token.punctuation {{
-            color: #000000;
-        }}
-        .language-wlangage .token.procedure-name {{
-            color: #008080;
-            font-weight: 600;
-        }}
+        .language-wlangage .token.property {{ color: {16}; }}
+        .language-wlangage .token.constant {{ color: {17}; font-style: italic; }}
+        .language-wlangage .token.type {{ color: {18}; }}
+        .language-wlangage .token.operator {{ color: {19}; background-color: transparent; }}
+        .language-wlangage .token.number,
+        .language-wlangage .token.string {{ color: {20}; }}
+        .language-wlangage .token.comment {{ color: {21}; font-style: italic; }}
+        .language-wlangage .token.punctuation {{ color: {22}; }}
 
         /* Thème sombre */
-        .dark-theme .language-wlangage .token.keyword {{
-            color: #FF8000;
-            text-transform: uppercase;
-        }}
-        .dark-theme .language-wlangage .token.variable-assignment {{
-            color: #A6A8AB;
-        }}
-        .dark-theme .language-wlangage .token.visibility {{
-            color: #4FC3F7;
-            font-weight: bold;
-        }}
+        .dark-theme code.language-wlangage {{ color: {23} !important; }}
+        .dark-theme .language-wlangage .token.keyword,
         .dark-theme .language-wlangage .token.procedure .procedure-keyword {{
-            color: #FF8000;
+            color: {24};
             text-transform: uppercase;
         }}
+        .dark-theme .language-wlangage .token.variable-assignment {{ color: {25}; }}
+        .dark-theme .language-wlangage .token.visibility {{ color: {26}; font-weight: bold; }}
+        .dark-theme .language-wlangage .token.procedure-name,
         .dark-theme .language-wlangage .token.procedure .procedure-name {{
-            color: #009180;
-            text-shadow: 0px 0px 4px rgba(0,145,128,0.3);
+            color: {27};
+            text-shadow: 0px 0px 4px {28};
             font-weight: 600;
         }}
         .dark-theme .language-wlangage .token.function {{
-            color: #91B5FE;
-            text-shadow: 0px 0px 4px rgba(145,181,254,0.3);
+            color: {29};
+            text-shadow: 0px 0px 4px {30};
         }}
-        .dark-theme .language-wlangage .token.constant {{
-            color: #B1C33A;
-            font-style: italic;
-        }}
-        .dark-theme .language-wlangage .token.type {{
-            color: #9575CD;
-        }}
-        .dark-theme .language-wlangage .token.operator {{
-            color: #CDD3DE;
-        }}
-        .dark-theme .language-wlangage .token.number {{
-            color: #BA68C8;
-        }}
-        .dark-theme .language-wlangage .token.string {{
-            color: #BA68C8;
-        }}
-        .dark-theme .language-wlangage .token.comment {{
-            color: #808080;
-            font-style: italic;
-        }}
-        .dark-theme .language-wlangage .token.punctuation {{
-            color: #CDD3DE;
-        }}
-        .dark-theme .language-wlangage .token.procedure-name {{
-            color: #009180;
-            font-weight: 600;
-        }}
+        .dark-theme .language-wlangage .token.property {{ color: {31}; }}
+        .dark-theme .language-wlangage .token.constant {{ color: {32}; font-style: italic; }}
+        .dark-theme .language-wlangage .token.type {{ color: {33}; }}
+        .dark-theme .language-wlangage .token.operator {{ color: {34}; background-color: transparent; }}
+        .dark-theme .language-wlangage .token.number,
+        .dark-theme .language-wlangage .token.string {{ color: {35}; }}
+        .dark-theme .language-wlangage .token.comment {{ color: {36}; font-style: italic; }}
+        .dark-theme .language-wlangage .token.punctuation {{ color: {37}; }}
     `;
-    var style = document.createElement('style');
-    style.textContent = css;
     document.head.appendChild(style);
 }})();
-'''
+'''.format(
+    len(keywords),
+    len(functions),
+    len(constants),
+    len(types),
+    keywords_pattern,
+    types_pattern,
+    constants_pattern,
+    functions_pattern,
+    operators_pattern,
+    # Thème clair
+    CSS_LIGHT['code_color'],
+    CSS_LIGHT['keyword_color'],
+    CSS_LIGHT['variable_assignment_color'],
+    CSS_LIGHT['visibility_color'],
+    CSS_LIGHT['procedure_name_color'],
+    CSS_LIGHT['function_color'],
+    CSS_LIGHT['function_shadow'],
+    CSS_LIGHT['property_color'],
+    CSS_LIGHT['constant_color'],
+    CSS_LIGHT['type_color'],
+    CSS_LIGHT['operator_color'],
+    CSS_LIGHT['number_color'],
+    CSS_LIGHT['comment_color'],
+    CSS_LIGHT['punctuation_color'],
+    # Thème sombre
+    CSS_DARK['code_color'],
+    CSS_DARK['keyword_color'],
+    CSS_DARK['variable_assignment_color'],
+    CSS_DARK['visibility_color'],
+    CSS_DARK['procedure_name_color'],
+    CSS_DARK['procedure_name_shadow'],
+    CSS_DARK['function_color'],
+    CSS_DARK['function_shadow'],
+    CSS_DARK['property_color'],
+    CSS_DARK['constant_color'],
+    CSS_DARK['type_color'],
+    CSS_DARK['operator_color'],
+    CSS_DARK['number_color'],
+    CSS_DARK['comment_color'],
+    CSS_DARK['punctuation_color']
+)
 
     return template
 
