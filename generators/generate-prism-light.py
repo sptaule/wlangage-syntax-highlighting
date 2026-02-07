@@ -4,6 +4,7 @@ Générateur Prism.js pour WLangage - Version Light
 """
 
 import json
+import os
 import re
 
 try:
@@ -36,8 +37,13 @@ def escape_operator_for_regex(op):
 
 def load_json_safe(filename):
     """Charge un fichier JSON de manière sécurisée"""
+    # Construire le chemin vers le dossier data
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(os.path.dirname(script_dir), 'data')
+    filepath = os.path.join(data_dir, filename)
+
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             data = json.load(f)
             print(f"{filename}: {len(data)} éléments chargés")
             return data
@@ -159,7 +165,7 @@ def main():
 
     if not any([keywords, operators]):
         print("Aucun fichier JSON trouvé ou chargé")
-        print("Assurez-vous d'avoir les fichiers suivants dans le même dossier:")
+        print("Assurez-vous d'avoir les fichiers suivants dans le dossier data/:")
         print("   - keywords.json")
         print("   - operators.json")
         print("\nNote: functions.json, constants.json et variable-types.json ne sont pas utilisés dans cette version light.")
@@ -169,8 +175,13 @@ def main():
     print("Génération du fichier Prism.js (version light)...")
     prism_code = create_prism_definition(keywords, operators)
 
-    # Sauvegarder
-    output_file = 'prism-wlangage-light.js'
+    # Créer le dossier dist s'il n'existe pas
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    dist_dir = os.path.join(os.path.dirname(script_dir), 'dist')
+    os.makedirs(dist_dir, exist_ok=True)
+
+    # Sauvegarder dans le dossier dist
+    output_file = os.path.join(dist_dir, 'prism-wlangage-light.js')
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(prism_code)
 
@@ -180,7 +191,7 @@ def main():
     # Générer la version minifiée si jsmin est disponible
     if MINIFY_AVAILABLE:
         minified_code = jsmin(prism_code)
-        minified_file = 'prism-wlangage-light.min.js'
+        minified_file = os.path.join(dist_dir, 'prism-wlangage-light.min.js')
         with open(minified_file, 'w', encoding='utf-8') as f:
             f.write(minified_code)
         print(f"Fichier minifié généré : {minified_file}")
