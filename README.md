@@ -2,13 +2,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Prism.js](https://img.shields.io/badge/Prism.js-1.30.0-orange.svg)](https://prismjs.com)
-[![WLangage](https://img.shields.io/badge/WLangage-WinDev%20%7C%20WebDev%20%7C%20WinDev%20Mobile-purple.svg)](https://www.pcsoft.fr)
 
 > Plugin de coloration syntaxique non-officiel pour le WLangage (WinDev, WebDev, WinDev Mobile) avec Prism.js
 
 ## ✨ Fonctionnalités
 
-- 🎨 **Support complet des accents** - É, È, À, Ç, Ñ, etc.
 - 📚 **3300+ fonctions natives** - Toutes les fonctions WLangage
 - 🔤 **4800+ constantes** - Constantes HFSQL, Windows, etc.
 - 🏷️ **452 types de variables** - Avec gestion singulier/pluriel
@@ -22,15 +20,11 @@
 ### Thème Sombre
 ![Thème Sombre](screenshots/dark-theme.png)
 
-## 🚀 Démonstration en ligne
-
-Voir la démo interactive : **[https://votre-username.github.io/prism-wlangage/](https://votre-username.github.io/prism-wlangage/)**
 
 ## 📦 Installation
 
-1. Téléchargez la dernière version depuis la [page Releases](https://github.com/votre-username/prism-wlangage/releases)
-2. Extrayez et placez `prism-wlangage.min.js` dans votre projet
-3. Incluez-le après Prism.js
+1. Extrayez et placez `prism-wlangage.min.js` dans votre projet
+2. Incluez-le après Prism.js
 
 ```html
 <script src="prism.min.js"></script>
@@ -59,7 +53,7 @@ PROCEDURE MaFonction()
         Trace(nCompteur)
     FIN
 FIN
-    </code></pre>
+</code></pre>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
     <script src="prism-wlangage.min.js"></script>
@@ -110,7 +104,7 @@ Si vous voulez modifier les données :
 2. Exécutez le script de génération :
 
 ```bash
-python3 generate-prism.py
+python generate-prism.py
 ```
 
 Cela générera `prism-wlangage.js` et `prism-wlangage.min.js`.
@@ -127,41 +121,24 @@ Cela générera `prism-wlangage.js` et `prism-wlangage.min.js`.
 - `operators.json` - Liste des opérateurs
 - `variable-types.json` - Liste des types de variables
 
-## 📚 Documentation
-
-- 📖 [Guide d'utilisation complet](GUIDE_UTILISATION.md) - Comment utiliser le plugin
-- 🚀 [Guide de publication GitHub](GUIDE_GITHUB.md) - Comment contribuer et publier
-
 ## 🤝 Contribution
 
 Les contributions sont les bienvenues ! Pour contribuer :
 
 1. Fork le projet
-2. Créez une branche (`git checkout -b feature/AmazingFeature`)
-3. Commit vos changements (`git commit -m 'Add AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
+2. Créez une branche (`git checkout -b feature/feature`)
+3. Commit vos changements (`git commit -m 'Ajout de la fonctionnalité n'`)
+4. Push vers la branche (`git push origin feature/feature`)
 5. Ouvrez une Pull Request
 
 ### Idées de contribution
 
-- Ajouter plus de mots-clés ou fonctions
 - Améliorer les patterns regex
-- Ajouter des thèmes supplémentaires
 - Créer des plugins pour d'autres éditeurs (VS Code, Sublime Text, etc.)
-- Traduire la documentation
 
 ## 📄 Licence
 
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour les détails.
-
-## 👨‍💻 Auteur
-
-**[Votre Nom]** - [Votre GitHub](https://github.com/votre-username)
-
-## 🙏 Remerciements
-
-- À l'équipe de [Prism.js](https://prismjs.com) pour leur excellent outil
-- À la communauté WLangage pour son soutien
 
 ## ⭐ Si ce projet vous a été utile
 
