@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLangage</title>
+    <!-- Prism.js CSS -->
+    <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism.min.css" rel="stylesheet" />
+    <style>pre { border-radius: 5px }</style>
+</head>
+<body>
+<div class="container" style="padding: 20px;max-width: 800px;margin: auto;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <button id="theme-switcher" style="padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; background: #667eea; color: white; margin: 0 auto"> 🌙 Thème Sombre </button>
+    </div>
+
+<pre>
+<code class="language-wlangage">x, y, z sont des entiers = 10, 20, 30
+sConnexionNom est une chaîne = "ServeurClient"
+
+MaConnexion est une Connexion
+MaConnexion.Provider = hAccèsHFClientServeur
+MaConnexion.Accès = hOLectureEcriture
+MaConnexion.Nom = sConnexionNom
+HOuvreConnexion(MaConnexion)
+
+AppelDLL32("User32", "EnumWindows", &EnumérationFenêtre, nFichier)
+
+// On ouvre le fichier
+nFichier est un entier = fOuvre("C:\fichier.txt", foCréation)
+si nFichier = -1 alors
+    Erreur("Problème fichier")
+    FinProgramme()
+fin
+
+/*
+Ceci est un commentaire de démonstration...
+... et il peut être sur plusieurs lignes.
+*/
+
+procédure DireBonjour(LOCAL sNom est une chaîne = "John"): booléen
+    SI PAS VérifierNom(sNom) alors FinProgramme()
+    Info("Bonjour " + sNom) // Salut !
+    renvoyer Vrai
+    procédure interne VérifierNom(sNom est une chaîne ANSI)
+        si sNom = "" alors renvoyer Faux
+    fin
+fin
+
+cTour est une Classe
+	hérite de cBatiment
+
+    procédure Construire()
+        Trace("Construction en cours...")
+    fin
+
+	privé
+    nHauteur est un entier
+
+	protégé
+    procédure Renforcer()
+        Trace("Renforcement en cours...")
+    fin
+fin</code>
+</pre>
+
+</div>
+<!-- Prism.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
+<!-- Notre définition WLangage FINALE -->
+<script src="prism-wlangage.js"></script>
+<script>
+    // Theme switcher
+    const themeButton = document.getElementById('theme-switcher');
+    const prismTheme = document.getElementById('prism-theme');
+    const body = document.body;
+    // Check for saved theme preference or default to dark
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(currentTheme);
+    themeButton.addEventListener('click', () => {
+        const newTheme = body.classList.contains('light-theme') ? 'dark' : 'light';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+    function setTheme(theme) {
+        if (theme === 'light') {
+            body.classList.add('light-theme');
+            body.classList.remove('dark-theme');
+            prismTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism.min.css';
+            themeButton.textContent = '☀️ Thème Clair';
+            themeButton.style.background = '#ff9800';
+        } else {
+            body.classList.add('dark-theme');
+            body.classList.remove('light-theme');
+            prismTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css';
+            themeButton.textContent = '🌙 Thème Sombre';
+            themeButton.style.background = '#667eea';
+        }
+    }
+</script>
+</body>
+</html>
