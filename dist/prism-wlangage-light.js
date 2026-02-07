@@ -42,16 +42,22 @@ Prism.languages.wlangage = {
 	'visibility': /(?:^|\s)(?:public|priv[eé]|prot[eé]g[eé]|h[eé]rite de)(?:$|\s)/i,
 
 	// Mots-clés du langage
-	'keyword': /\b(?:POUR TOUTE LIGNE SÉLECTIONNÉE|POUR TOUTE POSITION|POUR TOUTE CHAINE|POUR TOUTE LIGNE|COMPILE SI|CONTINUER|POUR TOUT|POUR TOUS|RENVOYER|UTILISER|TANTQUE|AUTRES|BOUCLE|CLASSE|RETOUR|ALORS|APRES|AUTRE|FAIRE|LOCAL|SELON|SINON|AVEC|DANS|GOTO|POUR|SOIT|CAS|FIN|PAS|DE|SI)\b/i,
+	'keyword': /\b(?:POUR\ TOUTE\ LIGNE\ SÉLECTIONNÉE|POUR\ TOUTE\ POSITION|POUR\ TOUTE\ CHAINE|POUR\ TOUTE\ LIGNE|COMPILE\ SI|CONTINUER|POUR\ TOUT|POUR\ TOUS|RENVOYER|UTILISER|TANTQUE|AUTRES|BOUCLE|CLASSE|RETOUR|ALORS|APRES|AUTRE|FAIRE|LOCAL|SELON|SINON|AVEC|DANS|GOTO|POUR|SOIT|CAS|FIN|PAS|DE|SI)\b/i,
 
 	// Déclaration de procédure
 	'procedure': {
 		pattern: /procédure(?:\s+(?:interne|constructeur|destructeur|virtuelle))?\s+[\p{L}\p{N}_]+/iu,
 		inside: {
-			'procedure-keyword': /procédure(?:\s+(?:interne|constructeur|destructeur|virtuelle))?/i,
+			'important': /procédure(?:\s+(?:interne|constructeur|destructeur|virtuelle))?/i,
 			'procedure-name': /\b[\p{L}\p{N}_]+\b$/u
 		}
 	},
+
+	// Éléments importants (procédures, types, visibilité)
+	'important': [
+		/\b(?:est un|est une|sont des)\s+[\p{L}\p{N}_]+/iu,
+		/(?:^|\s)(?:public|priv[eé]|prot[eé]g[eé]|h[eé]rite de)(?:$|\s)/i
+	],
 
 	// Fonctions (détectées automatiquement par la parenthèse ouvrante)
 	'function': /\b[\p{L}\p{N}_]+\b(?=\s*\()/iu,
