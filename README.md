@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Prism.js](https://img.shields.io/badge/Prism.js-1.30.0-orange.svg)](https://prismjs.com)
 
-> Plugin de coloration syntaxique non-officiel pour le WLangage (WinDev, WebDev, WinDev Mobile) avec Prism.js
+> Plugin de coloration syntaxique **non-officiel** pour le WLangage (WinDev, WebDev, WinDev Mobile) avec Prism.js
 
 ## ✨ Fonctionnalités
 
