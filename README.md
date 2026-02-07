@@ -15,10 +15,10 @@
 ## 📸 Aperçu
 
 ### Thème Clair
-![Thème Clair](screenshots/light-theme.png)
+![Thème Clair](screenshots/light-theme.jpg)
 
 ### Thème Sombre
-![Thème Sombre](screenshots/dark-theme.png)
+![Thème Sombre](screenshots/dark-theme.jpg)
 
 
 ## 📦 Installation
