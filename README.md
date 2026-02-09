@@ -3,16 +3,17 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Prism.js](https://img.shields.io/badge/Prism.js-1.30.0-orange.svg)](https://prismjs.com)
 
-> Plugin de coloration syntaxique **non-officiel** pour le WLangage avec Prism.js
+Plugin de coloration syntaxique **non-officiel** pour le WLangage avec Prism.js
 
-> **Note** Ce projet est développé de manière indépendante et n'est affilié d'aucune façon à l'entreprise à l'origine du WLangage.
-> Ce plugin est créé uniquement pour faciliter l'utilisation du WLangage dans des contextes web.
+> Ce projet est développé de manière indépendante et n'est affilié d'aucune façon à l'entreprise à l'origine du WLangage.
+> Ce plugin est créé uniquement pour faciliter l'utilisation et surtout la lisibilité du WLangage dans des contextes web.
 
 ## ✨ Fonctionnalités
 
 - **3300+ fonctions natives** - Toutes les fonctions WLangage
 - **4800+ constantes** - Constantes HFSQL, fonctions WLangage, etc.
-- **452 types de variables** - Avec gestion singulier/pluriel
+- **450+ types de variables** - Avec gestion singulier/pluriel
+- **650+ propriétés** - Toutes propriétés existantes confondues
 - **Thèmes clair et sombre** - Intégrés et personnalisables
 - **Version complète ou légère** - Choisissez la taille en fonction de vos besoins
 
@@ -31,7 +32,7 @@
 
 Les fichiers prêts à l'emploi sont disponibles dans le dossier `dist/` :
 
-1. Copiez `prism-wlangage.min.js` (version complète) ou `prism-wlangage-light.min.js` (version légère) dans votre projet
+1. Copiez `prism-wlangage.min.js` (version complète, conseillée) ou `prism-wlangage-light.min.js` (version légère) dans votre projet
 2. Incluez Prism.js et le plugin WLangage :
 
 ```html
@@ -39,7 +40,7 @@ Les fichiers prêts à l'emploi sont disponibles dans le dossier `dist/` :
 <script src="dist/prism-wlangage.min.js"></script>
 ```
 
-3. Pour les thèmes clair/sombre personnalisés, ajoutez également le CSS :
+3. Pour les thèmes personnalisés, ajoutez également le CSS (optionnel, mais conseillé) :
 
 ```html
 <link href="dist/prism-wlangage.css" rel="stylesheet" />
