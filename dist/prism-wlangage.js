@@ -1,8 +1,5 @@
 /**
  * WLangage syntax highlighting for Prism.js
- * Language: WLangage (WinDev, WebDev, WinDev Mobile)
- *
- * Auto-généré depuis les fichiers JSON
  * Mots-clés: 32 | Fonctions: 3329 | Constantes: 4811 | Types: 452
  */
 
@@ -68,7 +65,6 @@ Prism.languages.wlangage = {
 // Alias pour compatibilité
 Prism.languages.wl = Prism.languages.wlangage;
 
-// Injection automatique des styles CSS pour WLangage
 (function() {
     var style = document.createElement('style');
     style.textContent = `

@@ -1,12 +1,5 @@
 /**
  * WLangage syntax highlighting for Prism.js - Version Light
- * Language: WLangage (WinDev, WebDev, WinDev Mobile)
- *
- * Auto-généré depuis les fichiers JSON (sans functions.json, constants.json ni variable-types.json)
- * Mots-clés: 32
- * Les fonctions sont détectées automatiquement par la présence d'une parenthèse ouvrante
- * Les types sont détectés automatiquement par les mots-clés "est un", "est une" ou "sont des"
- *
  * Note: Ce fichier ne contient pas de CSS. Les couleurs sont gérées par les thèmes Prism.js.
  */
 
