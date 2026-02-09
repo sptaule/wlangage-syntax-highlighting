@@ -9,22 +9,11 @@ from common import (
 )
 
 def create_prism_definition(keywords, operators):
-    """Crée la définition Prism.js complète (version light)"""
-
-    # Préparer les patterns
     keywords_pattern = '|'.join(sort_and_escape(keywords))
     operators_pattern = '|'.join(sort_and_escape(operators, escape_operator_for_regex))
 
-    # Template JavaScript - version light (sans CSS)
-    template = '''/**
+    template = f'''/**
  * WLangage syntax highlighting for Prism.js - Version Light
- * Language: WLangage (WinDev, WebDev, WinDev Mobile)
- *
- * Auto-généré depuis les fichiers JSON (sans functions.json, constants.json ni variable-types.json)
- * Mots-clés: {0}
- * Les fonctions sont détectées automatiquement par la présence d'une parenthèse ouvrante
- * Les types sont détectés automatiquement par les mots-clés "est un", "est une" ou "sont des"
- *
  * Note: Ce fichier ne contient pas de CSS. Les couleurs sont gérées par les thèmes Prism.js.
  */
 
@@ -60,7 +49,7 @@ Prism.languages.wlangage = {{
 	'visibility': /(?:^|\\s)(?:public|priv[eé]|prot[eé]g[eé]|h[eé]rite de)(?:$|\\s)/i,
 
 	// Mots-clés du langage
-	'keyword': /\\b(?:{1})\\b/i,
+	'keyword': /\\b(?:{keywords_pattern})\\b/i,
 
 	// Déclaration de procédure
 	'procedure': {{
@@ -87,7 +76,7 @@ Prism.languages.wlangage = {{
 	'number': /-?\\b\\d+(?:\\.\\d+)?\\b/,
 
 	// Opérateurs
-	'operator': /(?:{2})/,
+	'operator': /(?:{operators_pattern})/,
 
 	// Ponctuation
 	'punctuation': /[(){{}}\\[\\],;:.]/
@@ -95,19 +84,13 @@ Prism.languages.wlangage = {{
 
 // Alias pour compatibilité
 Prism.languages.wl = Prism.languages.wlangage;
-'''.format(
-    len(keywords),
-    keywords_pattern,
-    operators_pattern
-)
+'''
 
     return template
 
 def main():
-    """Fonction principale"""
     print("Chargement des fichiers JSON (version light)...")
 
-    # Charger les fichiers JSON nécessaires
     data = {
         'keywords': load_json_safe('keywords.json'),
         'operators': load_json_safe('operators.json'),
@@ -121,7 +104,6 @@ def main():
         print("\nNote: functions.json, constants.json et variable-types.json ne sont pas utilisés dans cette version light.")
         return
 
-    # Générer et sauvegarder le code Prism.js
     print("Génération du fichier Prism.js (version light)...")
     prism_code = create_prism_definition(**data)
     write_output(prism_code, 'prism-wlangage-light.js')
