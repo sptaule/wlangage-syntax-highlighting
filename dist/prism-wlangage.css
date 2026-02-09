@@ -21,6 +21,8 @@
     --wlangage-procedure-name-color: #008080;
     --wlangage-function-color: #0000FF;
     --wlangage-function-shadow: rgba(0, 0, 255, 0.15);
+    --wlangage-user-function-color: #008080;
+    --wlangage-user-function-shadow: rgba(0, 128, 128, 0.15);
     --wlangage-property-color: #000000;
     --wlangage-constant-color: #0000FF;
     --wlangage-type-color: #5D00BA;
@@ -53,6 +55,8 @@
     --wlangage-procedure-name-shadow: rgba(0, 145, 128, 0.3);
     --wlangage-function-color: #91B5FE;
     --wlangage-function-shadow: rgba(145, 181, 254, 0.3);
+    --wlangage-user-function-color: #009180;
+    --wlangage-user-function-shadow: rgba(0, 148, 128, 0.15);
     --wlangage-property-color: #CDD3DE;
     --wlangage-constant-color: #B1C33A;
     --wlangage-type-color: #9575CD;
@@ -117,6 +121,12 @@ pre {
 .token.function {
     color: var(--wlangage-function-color);
     text-shadow: 0px 0px 4px var(--wlangage-function-shadow);
+}
+
+/* User Functions (custom functions) */
+.token.user-function {
+    color: var(--wlangage-user-function-color);
+    text-shadow: 0px 0px 4px var(--wlangage-user-function-shadow);
 }
 
 /* Properties */
@@ -216,6 +226,12 @@ pre {
 [data-theme="dark"] .token.function {
     color: var(--wlangage-function-color);
     text-shadow: 0px 0px 4px var(--wlangage-function-shadow);
+}
+
+.dark-theme .token.user-function,
+[data-theme="dark"] .token.user-function {
+    color: var(--wlangage-user-function-color);
+    text-shadow: 0px 0px 4px var(--wlangage-user-function-shadow);
 }
 
 .dark-theme .token.property,

@@ -35,7 +35,7 @@ Prism.languages.wlangage = {
 	'visibility': /(?:^|\s)(?:public|priv[eé]|prot[eé]g[eé]|h[eé]rite de)(?:$|\s)/i,
 
 	// Mots-clés du langage
-	'keyword': /\b(?:POUR\ TOUTE\ LIGNE\ SÉLECTIONNÉE|POUR\ TOUTE\ POSITION|POUR\ TOUTE\ CHAINE|POUR\ TOUTE\ LIGNE|COMPILE\ SI|CONTINUER|POUR\ TOUT|POUR\ TOUS|RENVOYER|UTILISER|TANTQUE|AUTRES|BOUCLE|CLASSE|RETOUR|ALORS|APRES|AUTRE|FAIRE|LOCAL|SELON|SINON|AVEC|DANS|GOTO|POUR|SOIT|CAS|FIN|PAS|DE|SI)\b/i,
+	'keyword': /\b(?:POUR\ TOUTE\ LIGNE\ SÉLECTIONNÉE|POUR\ TOUTE\ POSITION|POUR\ TOUTE\ CHAÎNE|SANSSAUVEPOSITION|POUR\ TOUTE\ LIGNE|EN\ PROFONDEUR|ALLOUER\ UNE|POUR\ CHAQUE|SÉPARÉE\ PAR|ALLOUER\ UN|COMPILE\ SI|ABSTRAITE|CONSTANTE|CONTINUER|DEPUISFIN|HÉRITE\ DE|POUR\ TOUT|POUR\ TOUS|sérialise|SÉRIALISE|VIRTUELLE|CONSTANT|CONTINUE|IMMUABLE|RENVOYER|UTILISER|LIBÉRER|TANTQUE|AUTRES|BOUCLE|CLASSE|Classe|_DANS_|GLOBAL|RETOUR|SORTIR|ALORS|APRES|AUTRE|FAIRE|LOCAL|SELON|SINON|AVEC|DANS|_ET_|GOTO|_OU_|POUR|SOIT|CAS|FIN|PAS|SUR|DE|ET|OU|SI|À)\b/i,
 
 	// Déclaration de procédure
 	'procedure': {
@@ -55,8 +55,9 @@ Prism.languages.wlangage = {
 	// Fonctions (détectées automatiquement par la parenthèse ouvrante)
 	'function': /\b[\p{L}\p{N}_]+\b(?=\s*\()/iu,
 
-	// Propriétés (après un nom de variable suivi d'un ou deux points)
-	'property': /(?<=\b[\p{L}\p{N}_]+(?:\.\.|\.))[\p{L}\p{N}_]+/u,
+	// Propriétés (après un accès membre '.' ou '..', y compris après des indexations [...] )
+	// Note: on n'utilise pas \b car il n'est pas Unicode-aware (ex: mots finissant par 'é').
+	'property': /(?<=\.\.|\.)[\p{L}\p{N}_]+(?![\p{L}\p{N}_])/u,
 
 	// Nombres (entiers et décimaux, négatifs inclus)
 	'number': /-?\b\d+(?:\.\d+)?\b/,
