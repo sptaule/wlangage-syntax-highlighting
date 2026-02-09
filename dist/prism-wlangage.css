@@ -92,14 +92,12 @@ pre {
 .token.keyword,
 .token.procedure .procedure-keyword {
     color: var(--wlangage-keyword-color);
-    font-weight: var(--wlangage-font-weight-bold);
     text-transform: uppercase;
 }
 
 /* Variable assignment (est un, est une, sont des) */
 .token.variable-assignment {
     color: var(--wlangage-variable-assignment-color);
-    font-style: italic;
 }
 
 /* Visibility modifiers (public, privé, protégé, hérite de) */
@@ -130,13 +128,11 @@ pre {
 .token.constant {
     color: var(--wlangage-constant-color);
     font-style: italic;
-    font-weight: var(--wlangage-font-weight-semibold);
 }
 
 /* Types */
 .token.type {
     color: var(--wlangage-type-color);
-    font-weight: var(--wlangage-font-weight-semibold);
 }
 
 /* Operators */
