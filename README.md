@@ -20,10 +20,10 @@ Plugin de coloration syntaxique **non-officiel** pour le WLangage avec Prism.js
 ## 📸 Aperçu
 
 ### Thème Clair
-![Thème Clair](screenshots/light-theme.jpg)
+![Thème Clair](screenshots/light-theme.png)
 
 ### Thème Sombre
-![Thème Sombre](screenshots/dark-theme.jpg)
+![Thème Sombre](screenshots/dark-theme.png)
 
 
 ## 📦 Installation
