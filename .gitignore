@@ -1,2 +1,3 @@
 .idea
 generators/__pycache__/
+.venv
