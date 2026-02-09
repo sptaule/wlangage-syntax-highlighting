@@ -7,12 +7,12 @@
     <!-- Prism.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
     <!-- Définition WLangage -->
-    <script src="dist/prism-wlangage.js"></script>
+    <script src="dist/prism-wlangage.min.js"></script>
     <!-- CSS theme for WLangage -->
-    <link id="prism-theme" href="dist/prism-wlangage.css" rel="stylesheet" />
+    <link id="prism-theme" href="dist/prism-wlangage.min.css" rel="stylesheet" />
 </head>
 <body>
-<div class="container" style="padding: 20px;max-width: 800px;margin: auto;">
+<div class="container" style="padding: 20px;max-width: 1000px;margin: auto;">
 
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <button id="theme-switcher" style="padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; background: #667eea; color: white; margin: 0 auto"> 🌙 Thème Sombre </button>
@@ -28,31 +28,131 @@ MaConnexion.Accès = hOLectureEcriture
 MaConnexion.Nom = sConnexionNom
 HOuvreConnexion(MaConnexion)
 
+SI (MaConnexion.Nom <> "" ET MaConnexion.Accès = hOLectureEcriture) _OU_ (MaConnexion.Nom <> "" ET MaConnexion.Accès = hOLecture) ALORS
+    Info("Connexion réussie")
+FIN
+
+MFichier est une Classe
+    Nom est une chaîne
+    Extension est une chaîne
+    Répertoire est une chaîne
+FIN
+
+FichierSource est un objet MFichier dynamique
+FichierSource = ALLOUER UN MFichier
+
+taIDParClient est tableau associatif d'entiers
+taIDParClient["A"] = 55 // Ajout de l'identifiant du client "A"
+taIDParClient["B"] = 321 // Ajout de l'identifiant du client "B"
+taIDParClient["A"] = 56 // Modification de l'identifiant du client "A"
+
+SI Client.Ville PAS _DANS_ ("PARIS", "MARSEILLE", "LYON") ALORS
+    Info("Vous n'habitez pas une des 3 plus grandes villes de France, d'abord et à plus !")
+FIN
+
+POUR TOUTE CHAÎNE UneLibrairie DE ListeLibrairie SÉPARÉE PAR RC
+    // Ajoute la librairie dans la table TABLE_Librairie
+    TableAjouteLigne(TABLE_Librairie, ExtraitChaîne(UneLibrairie, 1, TAB))
+FIN
+
+POUR TOUTE POSITION PositionActuelle DE ";" DANS ProduitExport
+    // Ajoute le produit dans la liste ListeProduit
+    ListeAjoute(LISTE_Produit, ...
+        ProduitExport[[AnciennePosition + 1 À PositionActuelle - 1]]
+    // Mémorisation de la position
+    AnciennePosition = PositionActuelle
+FIN
+
+POUR TOUTE LIGNE SÉLECTIONNÉE DE TABLE_Utilisateur
+    // Envoi d'un email
+    Proc_EnvoieMessage(COL_Nom, COL_Email)
+FIN
+
+SELON Quantité
+    CAS À 8: 	// Valeur inférieure ou égale à 8
+        Comment = "Un cadeau pour tout achat"
+    CAS 9,10:	// Valeur égale à 9 ou 10
+        Comment = "Profitez des promotions : 2 produits pour le prix d'un"
+    CAS 11 À 20 	// Valeur comprise entre 11 et 20 (inclus)
+        Comment = "Vous achetez deux produits : vous n'en payez qu'un seul"
+    CAS > 20:	// Valeur supérieure à 20
+        Comment = ""
+FIN
+
+FichierSource est un objet Fichier
+FichierSource est un Fichier
+
+t est un tableau de Classe1 dynamique
+POUR i = 1 À 10
+    o est une Classe (x)
+    o.m_nIndice = i
+    Ajoute(t, o)
+FIN
+
+POUR TOUT Lecteur EN PROFONDEUR
+    // Lecture des balises début aa, début bb, text1,
+FIN
+
+Lecteur est un jsonLecteur = JSONOuvreLecteur("fichier.json")
+POUR CHAQUE tableau_clients DE Lecteur
+    // Lecture du tableau racine ligne 1
+    POUR CHAQUE client DE tableau_clients
+        // Lecture des objets lignes 2 et 21
+        POUR CHAQUE propriété_client DE client
+            // Lecture des membres lignes 3, 4, 5, 22, 23 et 24
+            SI propriété_client.Nom = "addresses" ALORS
+                POUR CHAQUE adresse DE propriété_client
+                    // Lecture des objets lignes 7, 13, 26 et 32
+                    POUR CHAQUE propriété_adresse DE adresse
+                        // Lecture des membres lignes 8 à 11, 14 à 17, 27 à 30 et 33 à 36
+                    FIN
+                FIN
+            FIN
+        FIN
+    FIN
+FIN
+
+MaListe = INILit("Exemples", "", "", FichierINI)
+MotClé = ExtraitChaîne(MaListe, nb, RC)
+TANTQUE MotClé <> ""
+    nb = nb + 1
+    NomExpl = INILit("Projets installés", MotClé, "", FichierINI)
+    MotClé = ExtraitChaîne(MaListe, nb + 1, RC)
+FIN
+
+BOUCLE
+    // Lecture d'une ligne du fichier texte
+    UneLigne = fLitLigne(NumFic)
+    TraiteLigne(UneLigne)
+à FAIRE TANTQUE UneLigne <> EOT
+
 AppelDLL32("User32", "EnumWindows", &EnumérationFenêtre, nFichier)
 
 // On ouvre le fichier
 nFichier est un entier = fOuvre("C:\fichier.txt", foCréation)
-si nFichier = -1 alors
+SI nFichier = -1 ALORS
     Erreur("Problème fichier")
     FinProgramme()
-fin
+FIN
 
 /*
 Ceci est un commentaire de démonstration...
 ... et il peut être sur plusieurs lignes.
 */
 
-procédure DireBonjour(LOCAL sNom est une chaîne = "John"): booléen
-    si pas VérifierNom(sNom) alors FinProgramme()
+PROCÉDURE DireBonjour(LOCAL sNom est une chaîne = "John"): booléen
+    SI PAS VérifierNom(sNom) ALORS FinProgramme()
+
     Info("Bonjour " + sNom) // Salut !
-    renvoyer Vrai
-    procédure interne VérifierNom(sNom est une chaîne ANSI)
-        si sNom = "" alors renvoyer Faux
-    fin
-fin
+    RENVOYER Vrai
+
+    PROCÉDURE INTERNE VérifierNom(sNom est une chaîne ANSI)
+        SI sNom = "" ALORS RENVOYER Faux
+    FIN
+FIN
 
 cTour est une Classe
-    hérite de cBatiment
+    HÉRITE DE cBatiment
 
     procédure Construire()
         Trace("Construction en cours...")
@@ -66,6 +166,67 @@ cTour est une Classe
         Trace("Renforcement en cours...")
     fin
 fin</code>
+</pre>
+
+<pre>
+<code class="language-wlangage">PROCÉDURE GetAuthToken(MailCfg est une STEmailConfig): AuthToken
+
+SI MailCfg.TypeConfig = CLASSIQUE RENVOYER Null
+
+auAuthToken est un AuthToken = MailCfg.AuthToken
+
+SI PAS auAuthToken.Valide ALORS
+    auAuthToken = AuthIdentifie(GetAuthParamsByProvider(MailCfg.Fournisseur))
+SINON
+    SI (auAuthToken.DateExpiration - 1min < DateHeureSys()) ALORS
+        SI auAuthToken.Actualisation = "" ALORS
+            auAuthToken = AuthIdentifie(GetAuthParamsByProvider(MailCfg.Fournisseur))
+        SINON
+            auAuthToken = AuthRenouvelleToken(auAuthToken)
+            SI PAS auAuthToken.Valide ALORS
+                auAuthToken = AuthIdentifie(GetAuthParamsByProvider(MailCfg.Fournisseur))
+            FIN
+        FIN
+    FIN
+FIN
+
+ServerResponse = ChaîneVersJSON(auAuthToken.RéponseServeur)
+
+SI PAS HLitRecherche(EmailConfig, IDEmailConfig, MailCfg.IDConfigEmail, hIdentique) ALORS RENVOYER Null
+
+bufAuthToken est un Buffer
+Sérialise(auAuthToken, bufAuthToken, psdBinaire)
+EmailConfig.AuthToken = bufAuthToken
+
+EmailConfig.AccessToken	= EncodeString(ServerResponse.access_token)
+EmailConfig.RefreshToken = EncodeString(ServerResponse.refresh_token)
+
+EmailConfig.ExpirationToken = CalculerDateExpirationToken(ServerResponse.expires_in)
+
+SI PAS HModifie(EmailConfig) ALORS RENVOYER Null
+
+RENVOYER auAuthToken</code>
+</pre>
+
+<pre>
+<code class="language-wlangage">PROCÉDURE GetAllowedEmailConfigurations(): tableau de STEmailConfig
+// Renvoie les configurations mail autorisées par l'utilisateur
+
+sdData est une Source de Données
+tabAllowedEmailConfigurations est un tableau de STEmailConfig
+
+sReq est une chaîne UNICODE = "SELECT IDEmailConfig FROM EmailConfig WHERE (A1CLEUNIK = 0 AND P2CLEUNIK = 0) OR (A1CLEUNIK IN (0, %1) AND P2CLEUNIK IN (0, %2))"
+sReq = ChaîneConstruit(sReq, VarGlobActivite, VarGlobCollabo)
+
+SI HExécuteRequêteSQL(sdData, hRequêteDéfaut, sReq) ALORS
+    POUR TOUT sdData
+        MailCfg est une STEmailConfig
+        MailCfg = GetEmailConfigById(sdData.IDEmailConfig)
+        TableauAjoute(tabAllowedEmailConfigurations, MailCfg)
+    FIN
+FIN
+
+RENVOYER tabAllowedEmailConfigurations</code>
 </pre>
 
 </div>
