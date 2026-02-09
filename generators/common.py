@@ -25,6 +25,8 @@ CSS_LIGHT = {
     'procedure_name_color': '#008080',
     'function_color': '#0000FF',
     'function_shadow': 'rgba(0,0,255,0.15)',
+    'user_function_color': '#FF6600',
+    'user_function_shadow': 'rgba(255,102,0,0.15)',
     'property_color': '#000000',
     'constant_color': '#0000FF',
     'type_color': '#5D00BA',
@@ -44,6 +46,8 @@ CSS_DARK = {
     'procedure_name_shadow': 'rgba(0,145,128,0.3)',
     'function_color': '#91B5FE',
     'function_shadow': 'rgba(145,181,254,0.3)',
+    'user_function_color': '#FFB74D',
+    'user_function_shadow': 'rgba(255,183,77,0.3)',
     'property_color': '#CDD3DE',
     'constant_color': '#B1C33A',
     'type_color': '#9575CD',
@@ -61,6 +65,83 @@ CSS_DARK = {
 def escape_for_regex(text):
     """Échappe les caractères spéciaux pour une regex JavaScript"""
     return re.escape(text)
+
+
+# =========================================================================
+# NORMALISATION DES ACCENTS ("accent folding")
+# =========================================================================
+# Objectif: rendre la tokenisation insensible aux accents SANS générer des
+# patterns énormes du type [eéèêë] pour chaque lettre.
+#
+# On fait un mapping 1:1 (un caractère -> un caractère) pour garantir que la
+# longueur du code reste identique, ce qui permet de restaurer le texte original
+# après la tokenisation côté JS.
+_ACCENT_FOLD_MAP = {
+    # a
+    **{ord(c): 'a' for c in 'àâäáãå'},
+    **{ord(c): 'A' for c in 'ÀÂÄÁÃÅ'},
+    # e
+    **{ord(c): 'e' for c in 'éèêë'},
+    **{ord(c): 'E' for c in 'ÉÈÊË'},
+    # i
+    **{ord(c): 'i' for c in 'îïíì'},
+    **{ord(c): 'I' for c in 'ÎÏÍÌ'},
+    # o
+    **{ord(c): 'o' for c in 'ôöóòõ'},
+    **{ord(c): 'O' for c in 'ÔÖÓÒÕ'},
+    # u
+    **{ord(c): 'u' for c in 'ùûüú'},
+    **{ord(c): 'U' for c in 'ÙÛÜÚ'},
+    # y
+    **{ord(c): 'y' for c in 'ÿý'},
+    **{ord(c): 'Y' for c in 'ŸÝ'},
+    # c
+    ord('ç'): 'c',
+    ord('Ç'): 'C',
+}
+
+
+def fold_accents(text: str) -> str:
+    """Supprime les accents via un mapping 1:1 (préserve la longueur)."""
+    return text.translate(_ACCENT_FOLD_MAP)
+
+
+def normalize_accents_for_regex(text):
+    """
+    Normalise les accents dans un texte pour créer un pattern regex qui matche
+    les variantes avec et sans accents.
+
+    Exemple: "Chaine" -> "Ch[aeî]n[eé]"
+    """
+    # Mapping des caractères avec leurs variantes accentuées
+    accent_map = {
+        'a': 'aàâä',
+        'e': 'eéèêë',
+        'i': 'iîï',
+        'o': 'oôö',
+        'u': 'uùûü',
+        'c': 'cç',
+        'y': 'yÿ',
+    }
+
+    result = []
+    i = 0
+    while i < len(text):
+        char = text[i].lower()
+        if char in accent_map:
+            # Créer une classe de caractères [variantes]
+            # On garde la casse originale pour le premier caractère
+            variants = accent_map[char]
+            if text[i].isupper():
+                # Si le caractère original est majuscule, on met les variantes en majuscule aussi
+                variants = ''.join(v.upper() for v in variants)
+            result.append(f'[{variants}]')
+        else:
+            # Échapper les caractères spéciaux regex
+            result.append(re.escape(text[i]))
+        i += 1
+
+    return ''.join(result)
 
 
 def escape_operator_for_regex(op):
@@ -89,13 +170,30 @@ def load_json_safe(filename):
         return []
 
 
-def sort_and_escape(items, escape_func=escape_for_regex):
-    """Trie les éléments par longueur décroissante et les échappe pour regex"""
-    sorted_items = sorted(items, key=len, reverse=True)
+def sort_and_escape(items, escape_func=escape_for_regex, normalize_accents=False, fold_accents_items=False):
+    """
+    Trie les éléments par longueur décroissante et les échappe pour regex
+
+    Args:
+        items: Liste des éléments à traiter
+        escape_func: Fonction d'échappement à utiliser
+        normalize_accents: Si True, normalise les accents pour matcher les variantes
+        fold_accents_items: Si True, remplace les caractères accentués par leur
+            version non accentuée (1:1), pour générer des patterns plus compacts.
+    """
+    processed_items = items
+    if fold_accents_items:
+        # Dédoublonnage après folding (sinon patterns inutiles)
+        processed_items = list({fold_accents(item) for item in items})
+
+    sorted_items = sorted(processed_items, key=len, reverse=True)
+
+    if normalize_accents:
+        return [normalize_accents_for_regex(item) for item in sorted_items]
     return [escape_func(item) for item in sorted_items]
 
 
-def create_types_pattern(types):
+def create_types_pattern(types, normalize_accents=False):
     """Crée un pattern regex pour les types avec gestion du singulier/pluriel"""
     processed = set()
     patterns = []
@@ -104,7 +202,10 @@ def create_types_pattern(types):
         base = re.sub(r's$', '', t)
         if base not in processed:
             processed.add(base)
-            patterns.append(escape_for_regex(base) + 's?')
+            if normalize_accents:
+                patterns.append(normalize_accents_for_regex(base) + 's?')
+            else:
+                patterns.append(escape_for_regex(base) + 's?')
 
     return '|'.join(patterns)
 
