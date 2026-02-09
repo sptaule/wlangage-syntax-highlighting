@@ -1,21 +1,20 @@
-# 🎨 Plugin Prism.js pour WLangage
+# Plugin Prism.js pour WLangage
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Prism.js](https://img.shields.io/badge/Prism.js-1.30.0-orange.svg)](https://prismjs.com)
 
 > Plugin de coloration syntaxique **non-officiel** pour le WLangage avec Prism.js
 
-> **Note**  
-> Ce projet est développé de manière indépendante et n'est affilié d'aucune façon à l'entreprise à l'origine du WLangage.  
+> **Note** Ce projet est développé de manière indépendante et n'est affilié d'aucune façon à l'entreprise à l'origine du WLangage.
 > Ce plugin est créé uniquement pour faciliter l'utilisation du WLangage dans des contextes web.
 
 ## ✨ Fonctionnalités
 
-- 📚 **3300+ fonctions natives** - Toutes les fonctions WLangage
-- 🔤 **4800+ constantes** - Constantes HFSQL, fonctions WLangage, etc.
-- 🏷️ **452 types de variables** - Avec gestion singulier/pluriel
-- 🌓 **Thèmes clair et sombre** - Intégrés et personnalisables
-- ⚖️ **Version complète ou légère** - Choisissez la taille en fonction de vos besoins
+- **3300+ fonctions natives** - Toutes les fonctions WLangage
+- **4800+ constantes** - Constantes HFSQL, fonctions WLangage, etc.
+- **452 types de variables** - Avec gestion singulier/pluriel
+- **Thèmes clair et sombre** - Intégrés et personnalisables
+- **Version complète ou légère** - Choisissez la taille en fonction de vos besoins
 
 ## 📸 Aperçu
 
@@ -51,8 +50,6 @@ Les fichiers prêts à l'emploi sont disponibles dans le dossier `dist/` :
 Voir la section **Développement** ci-dessous.
 
 ## 💻 Utilisation rapide
-
-### Exemple basique
 
 ```html
 <!DOCTYPE html>
@@ -163,39 +160,39 @@ Les fichiers générés sont placés dans le dossier `dist/` :
 
 ### Tokens et classes CSS
 
-| Élément            | Classe CSS                   | Description                               |
-|--------------------|------------------------------|-------------------------------------------|
-| Commentaires       | `.token.comment`             | `//` et `/* */`                           |
-| Chaînes            | `.token.string`              | Texte entre guillemets                    |
-| Assignation        | `.token.variable-assignment` | `est un`, `est une`, `sont des`           |
-| Visibilité         | `.token.visibility`          | `public`, `privé`, `protégé`, `hérite de` |
-| Mots-clés          | `.token.keyword`             | `SI`, `POUR`, `FIN`, etc.                 |
-| Procédures         | `.token.procedure`           | Déclaration `PROCEDURE`                   |
-| Noms de procédures | `.token.procedure-name`      | Nom après `PROCEDURE`                     |
-| Types              | `.token.type`                | `entier`, `chaîne`, etc.                  |
-| Constantes         | `.token.constant`            | Constantes HFSQL, etc.                    |
-| Fonctions          | `.token.function`            | Fonctions natives                         |
-| Propriétés         | `.token.property`            | Après `.` ou `..`                         |
-| Nombres            | `.token.number`              | Valeurs numériques                        |
-| Opérateurs         | `.token.operator`            | `+`, `-`, `=`, etc.                       |
-| Ponctuation        | `.token.punctuation`         | `()`, `[]`, `{}`, `,`, `;`, `:`           |
+| Élément            | Classe CSS                   | Description                        |
+|--------------------|------------------------------|------------------------------------|
+| Commentaires       | `.token.comment`             | `//` et `/* */`                    |
+| Chaînes            | `.token.string`              | Texte entre guillemets             |
+| Assignation        | `.token.variable-assignment` | `est un`, `est une`, `sont des`    |
+| Visibilité         | `.token.visibility`          | `public`, `privé`, `protégé`, etc. |
+| Mots-clés          | `.token.keyword`             | `SI`, `POUR`, `FIN`, etc.          |
+| Procédures         | `.token.procedure`           | Déclaration `PROCEDURE`            |
+| Noms de procédures | `.token.procedure-name`      | Nom après `PROCEDURE`              |
+| Types              | `.token.type`                | `entier`, `chaîne`, etc.           |
+| Constantes         | `.token.constant`            | Constantes HFSQL, etc.             |
+| Fonctions          | `.token.function`            | Fonctions natives                  |
+| Propriétés         | `.token.property`            | Après `.` ou `..`                  |
+| Nombres            | `.token.number`              | Valeurs numériques                 |
+| Opérateurs         | `.token.operator`            | `+`, `-`, `=`, `*`, `<>`, etc.     |
+| Ponctuation        | `.token.punctuation`         | `()`, `[]`, `{}`, `,`, `;`, `:`    |
 
 ### Structure du projet
 
 ```
-├── data/                    # Données sources (JSON)
-│   ├── keywords.json        # Mots-clés du langage
-│   ├── functions.json       # Fonctions natives
-│   ├── constants.json       # Constantes HFSQL, etc.
-│   ├── operators.json       # Opérateurs
-│   └── variable-types.json  # Types de variables
-├── generators/              # Scripts de génération
-│   ├── generate-prism.py    # Générateur version complète
-│   ├── generate-prism-light.py  # Générateur version légère
-│   └── common.py            # Fonctions utilitaires
-├── dist/                    # Fichiers générés (à utiliser)
-├── demo.html                # Page de démonstration
-└── screenshots/             # Captures d'écran
+├── data/   # Données sources (JSON)
+│   ├── keywords.json 
+│   ├── functions.json
+│   ├── constants.json
+│   ├── operators.json
+│   └── variable-types.json
+├── generators/   # Scripts de génération
+│   ├── generate-prism.py
+│   ├── generate-prism-light.py
+│   └── common.py
+├── dist/   # Fichiers générés (à utiliser)
+├── demo.html
+└── screenshots/
 ```
 
 ## 🤝 Contribution
@@ -215,7 +212,7 @@ Les contributions sont les bienvenues ! Pour contribuer :
 
 ## 📄 Licence
 
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour les détails.
+Ce projet est sous licence MIT — voir le fichier [LICENSE](LICENSE) pour les détails.
 
 ## ⭐ Si ce projet vous a été utile
 
