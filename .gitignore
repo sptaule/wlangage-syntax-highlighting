@@ -1,3 +1,18 @@
-.idea
+# Dependencies
+node_modules/
+.venv/
 generators/__pycache__/
-.venv
+
+# Test coverage
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
